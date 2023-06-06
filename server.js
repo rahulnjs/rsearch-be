@@ -33,7 +33,23 @@ fastify.get('/api/search', async (request, reply) => {
         time: (now - then) / 1000,
         rc: results.length
     };
-})
+});
+
+
+fastify.get('/api/log', async (request, reply) => {
+    const collection = await DB.collection('log');
+    const data = await collection.find(request.body);
+    return await data.toArray();
+});
+
+fastify.post('/api/log', async (request, reply) => {
+    const collection = await DB.collection('log');
+    await collection.insertOne(request.body);
+    return {
+        ok: 1
+    };
+});
+
 
 // Run the server!
 const start = async () => {
