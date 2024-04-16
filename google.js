@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 
 const GOOGLE_LINK = 'https://www.google.com';
 
-async function search(q, shouldNotReverse) {
+async function search(q, originalOrder) {
     const result = {};
     let pages = 2;
     let url = `${GOOGLE_LINK}/search?q=${q}`;
@@ -25,10 +25,11 @@ async function search(q, shouldNotReverse) {
             n = result[key].length;
         }
     }
-    if (shouldNotReverse) {
-        result[targetKey].reverse()
-    }
+
     const j = divToJSON(result[targetKey]);
+    if (originalOrder) {
+        j.reverse()
+    }
     return j;
 }
 
