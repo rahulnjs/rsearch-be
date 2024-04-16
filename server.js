@@ -5,7 +5,7 @@ const cors = require('@fastify/cors');
 const { MongoClient } = require("mongodb");
 
 
-const client = new MongoClient(`mongodb+srv://tint:${process.env.DB_PWD}@cluster0.upxu80i.mongodb.net/admin?authSource=admin&replicaSet=atlas-1228dx-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true`);
+const client = new MongoClient(`mongodb+srv://tint:${process.env.DB_PWD}@cluster0.upxu80i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
 let DB;
 
 (async function () {
