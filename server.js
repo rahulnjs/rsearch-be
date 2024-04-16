@@ -25,7 +25,7 @@ fastify.register(cors, {
 // Declare a route
 fastify.get('/api/search', async (request, reply) => {
     const then = Date.now();
-    const results = await search(request.query.q);
+    const results = await search(request.query.q, request.query.original ? true : false);
     results.reverse();
     const now = Date.now();
     return {
