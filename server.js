@@ -9,7 +9,7 @@ const client = new MongoClient(`mongodb+srv://tint:${process.env.DB_PWD}@cluster
 let DB, DB2;
 
 async function connectDB2() {
-    const url = `mongodb+srv://root:${process.env.DB_PWD}@riders.hd4vtve.mongodb.net/admin?authSource=admin&replicaSet=atlas-7ub5o0-shard-0&w=majority&readPreference=primary&appname=riders&retryWrites=true&ssl=true`;
+    const url = `mongodb+srv://root:${process.env.DB2_PWD}@riders.hd4vtve.mongodb.net/admin?authSource=admin&replicaSet=atlas-7ub5o0-shard-0&w=majority&readPreference=primary&appname=riders&retryWrites=true&ssl=true`;
     const client = new MongoClient(url);
     await client.connect();
     console.log('Connected successfully to server');
