@@ -1,6 +1,7 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const fetch = require('node-fetch');
+const fs = require("fs");
 
 const GOOGLE_LINK = 'https://www.google.com';
 
@@ -44,6 +45,7 @@ function getNextPageLink(DOM) {
 async function google(url) {
     const res = await fetch(url);
     const html = await res.text();
+    fs.writeFileSync("g.html", html);
     return new JSDOM(html);
 }
 
@@ -60,6 +62,7 @@ function extractSearchResults(document, result) {
             result[key].push(d.firstChild);
         }
     }
+    console.log(results)
     return result;
 }
 

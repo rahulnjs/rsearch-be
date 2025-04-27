@@ -6,12 +6,22 @@ const { MongoClient } = require("mongodb");
 
 
 const client = new MongoClient(`mongodb+srv://tint:${process.env.DB_PWD}@cluster0.upxu80i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
-let DB;
+let DB, DB2;
+
+async function connectDB2() {
+    const url = `mongodb+srv://root:${process.env.DB_PWD}@riders.hd4vtve.mongodb.net/admin?authSource=admin&replicaSet=atlas-7ub5o0-shard-0&w=majority&readPreference=primary&appname=riders&retryWrites=true&ssl=true`;
+    const client = new MongoClient(url);
+    await client.connect();
+    console.log('Connected successfully to server');
+    const db = client.db("rsearch");
+    return db;
+}
 
 (async function () {
     try {
         await client.connect();
         DB = client.db("rsearch");
+        DB2 = await connectDB2();
         console.log("Connected to DB too...");
     } catch (e) {
         console.log("DB Connection failed", e);
@@ -37,13 +47,13 @@ fastify.get('/api/search', async (request, reply) => {
 
 
 fastify.get('/api/log', async (request, reply) => {
-    const collection = await DB.collection('log');
+    const collection = await (request.query.db ? DB2 : DB).collection('log');
     const data = await collection.find(request.body);
     return await data.toArray();
 });
 
 fastify.post('/api/log', async (request, reply) => {
-    const collection = await DB.collection('log');
+    const collection = await (request.query.db ? DB2 : DB).collection('log');
     await collection.insertOne(request.body);
     return {
         ok: 1
